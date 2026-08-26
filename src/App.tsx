@@ -1,56 +1,74 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { DashboardControls } from './components/DashboardControls'
 import { Pagination } from './components/Pagination'
 import { StatCard } from './components/StatCard'
 import { UserTable } from './components/UserTable'
 import { useUsers } from './hooks/useUsers'
-import type { SortConfig, SortKey } from './types/user'
+import type { SortKey } from './types/user'
 import { filterUsers, getCities, getCompanies, sortUsers } from './utils/dashboard'
+import { createDashboardParams, readDashboardParams } from './utils/dashboardParams'
 import './App.css'
 
 const PAGE_SIZE = 5
 
 function App() {
   const { users, loading, error } = useUsers()
-  const [search, setSearch] = useState('')
-  const [company, setCompany] = useState('')
-  const [city, setCity] = useState('')
-  const [page, setPage] = useState(1)
-  const [sort, setSort] = useState<SortConfig>({ key: 'name', direction: 'asc' })
+  const [dashboardState, setDashboardState] = useState(readDashboardParams)
+  const { search, company, city, page, sort } = dashboardState
 
   const companies = useMemo(() => getCompanies(users), [users])
   const cities = useMemo(() => getCities(users), [users])
+  const activeCompany = !loading && company && !companies.includes(company) ? '' : company
+  const activeCity = !loading && city && !cities.includes(city) ? '' : city
   const filteredUsers = useMemo(
-    () => filterUsers(users, { search, company, city }),
-    [users, search, company, city],
+    () => filterUsers(users, { search, company: activeCompany, city: activeCity }),
+    [users, search, activeCompany, activeCity],
   )
   const sortedUsers = useMemo(() => sortUsers(filteredUsers, sort), [filteredUsers, sort])
 
-  const visibleUsers = sortedUsers.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
   const distinctCompanies = new Set(filteredUsers.map((user) => user.company.name)).size
   const distinctCities = new Set(filteredUsers.map((user) => user.address.city)).size
+  const pageCount = Math.max(1, Math.ceil(filteredUsers.length / PAGE_SIZE))
+  const activePage = loading ? page : Math.min(page, pageCount)
+  const visibleUsers = sortedUsers.slice((activePage - 1) * PAGE_SIZE, activePage * PAGE_SIZE)
+
+  useEffect(() => {
+    const params = createDashboardParams({
+      search,
+      company: activeCompany,
+      city: activeCity,
+      page: activePage,
+      sort,
+    })
+    const query = params.size > 0 ? `?${params.toString()}` : ''
+    window.history.replaceState(null, '', `${window.location.pathname}${query}${window.location.hash}`)
+  }, [search, activeCompany, activeCity, activePage, sort])
 
   function updateSearch(value: string) {
-    setSearch(value)
-    setPage(1)
+    setDashboardState((current) => ({ ...current, search: value, page: 1 }))
   }
 
   function updateCompany(value: string) {
-    setCompany(value)
-    setPage(1)
+    setDashboardState((current) => ({ ...current, company: value, page: 1 }))
   }
 
   function updateCity(value: string) {
-    setCity(value)
-    setPage(1)
+    setDashboardState((current) => ({ ...current, city: value, page: 1 }))
   }
 
   function updateSort(key: SortKey) {
-    setSort((current) => ({
-      key,
-      direction: current.key === key && current.direction === 'asc' ? 'desc' : 'asc',
+    setDashboardState((current) => ({
+      ...current,
+      sort: {
+        key,
+        direction: current.sort.key === key && current.sort.direction === 'asc' ? 'desc' : 'asc',
+      },
+      page: 1,
     }))
-    setPage(1)
+  }
+
+  function updatePage(nextPage: number) {
+    setDashboardState((current) => ({ ...current, page: nextPage }))
   }
 
   return (
@@ -74,8 +92,8 @@ function App() {
 
         <DashboardControls
           search={search}
-          company={company}
-          city={city}
+          company={activeCompany}
+          city={activeCity}
           companies={companies}
           cities={cities}
           onSearchChange={updateSearch}
@@ -97,10 +115,10 @@ function App() {
             <>
               <UserTable users={visibleUsers} sort={sort} onSort={updateSort} />
               <Pagination
-                page={page}
+                page={activePage}
                 pageSize={PAGE_SIZE}
                 total={filteredUsers.length}
-                onPageChange={setPage}
+                onPageChange={updatePage}
               />
             </>
           )}

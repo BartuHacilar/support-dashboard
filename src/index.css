@@ -1,20 +1,88 @@
 :root {
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: #172033;
-  background: #f4f6fa;
+  color: var(--text-strong);
+  background: var(--page-bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  color-scheme: light;
+
+  --page-bg: #f4f6fa;
+  --surface: #ffffff;
+  --surface-muted: #f8f9fc;
+  --surface-error: #fff7f6;
+  --text-strong: #172033;
+  --text: #475467;
+  --text-muted: #667085;
+  --placeholder: #98a2b3;
+  --border: #e2e7f0;
+  --border-soft: #e9edf3;
+  --row-border: #edf0f5;
+  --control-border: #d8dee9;
+  --hover-border: #a8afbc;
+  --primary: #4f46e5;
+  --focus: #7770e8;
+  --focus-ring: rgba(79, 70, 229, 0.12);
+  --sort-inactive: #b3bac7;
+  --spinner-track: #d6d9e0;
+  --error: #b42318;
+  --avatar-bg: #4f46e5;
+  --indigo-text: #4f46e5;
+  --indigo-bg: #eeedff;
+  --teal-text: #087e8b;
+  --teal-bg: #e7f8f7;
+  --orange-text: #c45b10;
+  --orange-bg: #fff2e5;
+  --card-shadow: 0 5px 16px rgba(24, 39, 75, 0.04);
+  --panel-shadow: 0 8px 24px rgba(24, 39, 75, 0.05);
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --page-bg: #111827;
+  --surface: #182235;
+  --surface-muted: #202b40;
+  --surface-error: #371f29;
+  --text-strong: #f8fafc;
+  --text: #cbd5e1;
+  --text-muted: #94a3b8;
+  --placeholder: #718096;
+  --border: #2d3a50;
+  --border-soft: #29364a;
+  --row-border: #263347;
+  --control-border: #3a4961;
+  --hover-border: #52617a;
+  --primary: #a5b4fc;
+  --focus: #818cf8;
+  --focus-ring: rgba(129, 140, 248, 0.2);
+  --sort-inactive: #64748b;
+  --spinner-track: #475569;
+  --error: #fca5a5;
+  --avatar-bg: #6366f1;
+  --indigo-text: #a5b4fc;
+  --indigo-bg: #2b3159;
+  --teal-text: #67e8f9;
+  --teal-bg: #173c45;
+  --orange-text: #fdba74;
+  --orange-bg: #49301e;
+  --card-shadow: 0 5px 16px rgba(0, 0, 0, 0.16);
+  --panel-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  background: var(--page-bg);
+}
+
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  color: var(--text-strong);
+  background: var(--page-bg);
 }
 
 button,

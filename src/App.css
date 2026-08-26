@@ -13,7 +13,7 @@
 
 .eyebrow {
   margin: 0 0 4px;
-  color: #667085;
+  color: var(--text-muted);
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -44,9 +44,41 @@ h2 {
   place-items: center;
   border-radius: 50%;
   color: #fff;
-  background: #4f46e5;
+  background: var(--avatar-bg);
   font-size: 0.82rem;
   font-weight: 700;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.theme-toggle {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border: 1px solid var(--control-border);
+  border-radius: 10px;
+  color: var(--text-muted);
+  background: var(--surface);
+}
+
+.theme-toggle:hover {
+  color: var(--primary);
+  border-color: var(--hover-border);
+}
+
+.theme-toggle svg {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
 }
 
 .stats-grid {
@@ -61,15 +93,15 @@ h2 {
   align-items: center;
   gap: 16px;
   padding: 21px;
-  border: 1px solid #e2e7f0;
+  border: 1px solid var(--border);
   border-radius: 14px;
-  background: #fff;
-  box-shadow: 0 5px 16px rgba(24, 39, 75, 0.04);
+  background: var(--surface);
+  box-shadow: var(--card-shadow);
 }
 
 .stat-card p {
   margin-bottom: 5px;
-  color: #667085;
+  color: var(--text-muted);
   font-size: 0.82rem;
   font-weight: 600;
 }
@@ -103,18 +135,18 @@ h2 {
 }
 
 .stat-icon.indigo {
-  color: #4f46e5;
-  background: #eeedff;
+  color: var(--indigo-text);
+  background: var(--indigo-bg);
 }
 
 .stat-icon.teal {
-  color: #087e8b;
-  background: #e7f8f7;
+  color: var(--teal-text);
+  background: var(--teal-bg);
 }
 
 .stat-icon.orange {
-  color: #c45b10;
-  background: #fff2e5;
+  color: var(--orange-text);
+  background: var(--orange-bg);
 }
 
 .controls {
@@ -136,17 +168,17 @@ h2 {
   left: 14px;
   width: 19px;
   height: 19px;
-  color: #98a2b3;
+  color: var(--placeholder);
 }
 
 .search-box input,
 .select-group select {
   height: 44px;
-  border: 1px solid #d8dee9;
+  border: 1px solid var(--control-border);
   border-radius: 9px;
   outline: none;
-  color: #344054;
-  background: #fff;
+  color: var(--text-strong);
+  background: var(--surface);
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 
@@ -164,8 +196,8 @@ h2 {
   right: 14px;
   width: 15px;
   height: 15px;
-  border: 2px solid #d6d9e0;
-  border-top-color: #4f46e5;
+  border: 2px solid var(--spinner-track);
+  border-top-color: var(--primary);
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
 }
@@ -177,13 +209,13 @@ h2 {
 }
 
 .search-box input::placeholder {
-  color: #98a2b3;
+  color: var(--placeholder);
 }
 
 .search-box input:focus,
 .select-group select:focus {
-  border-color: #7770e8;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+  border-color: var(--focus);
+  box-shadow: 0 0 0 3px var(--focus-ring);
 }
 
 .select-group {
@@ -198,7 +230,7 @@ h2 {
 }
 
 .select-group label > span {
-  color: #667085;
+  color: var(--text-muted);
   font-size: 0.78rem;
   font-weight: 600;
 }
@@ -210,20 +242,20 @@ h2 {
 
 .table-panel {
   overflow: hidden;
-  border: 1px solid #e2e7f0;
+  border: 1px solid var(--border);
   border-radius: 14px;
-  background: #fff;
-  box-shadow: 0 8px 24px rgba(24, 39, 75, 0.05);
+  background: var(--surface);
+  box-shadow: var(--panel-shadow);
 }
 
 .panel-heading {
   padding: 22px 24px;
-  border-bottom: 1px solid #e9edf3;
+  border-bottom: 1px solid var(--border-soft);
 }
 
 .panel-heading p {
   margin-bottom: 0;
-  color: #667085;
+  color: var(--text-muted);
   font-size: 0.9rem;
 }
 
@@ -240,13 +272,13 @@ table {
 th,
 td {
   padding: 15px 24px;
-  border-bottom: 1px solid #edf0f5;
+  border-bottom: 1px solid var(--row-border);
   white-space: nowrap;
 }
 
 th {
-  color: #667085;
-  background: #f8f9fc;
+  color: var(--text-muted);
+  background: var(--surface-muted);
   font-size: 0.76rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -268,21 +300,21 @@ th {
 
 .sort-button:focus-visible {
   border-radius: 3px;
-  outline: 2px solid #7770e8;
+  outline: 2px solid var(--focus);
   outline-offset: 3px;
 }
 
 .sort-icon {
-  color: #b3bac7;
+  color: var(--sort-inactive);
   font-size: 0.9rem;
 }
 
 .sort-icon.active {
-  color: #4f46e5;
+  color: var(--primary);
 }
 
 td {
-  color: #475467;
+  color: var(--text);
   font-size: 0.9rem;
 }
 
@@ -291,12 +323,12 @@ tbody tr:last-child td {
 }
 
 .customer-name {
-  color: #172033;
+  color: var(--text-strong);
   font-weight: 650;
 }
 
 td a {
-  color: #4f46e5;
+  color: var(--primary);
   text-decoration: none;
 }
 
@@ -306,18 +338,18 @@ td a:hover {
 
 .status-message {
   padding: 64px 24px;
-  color: #667085;
+  color: var(--text-muted);
   text-align: center;
 }
 
 .error-message {
-  color: #b42318;
-  background: #fff7f6;
+  color: var(--error);
+  background: var(--surface-error);
 }
 
 .empty-state {
   padding: 62px 24px;
-  color: #344054;
+  color: var(--text-strong);
   text-align: center;
 }
 
@@ -328,7 +360,7 @@ td a:hover {
 
 .empty-state p {
   margin-bottom: 0;
-  color: #667085;
+  color: var(--text-muted);
   font-size: 0.88rem;
 }
 
@@ -337,12 +369,12 @@ td a:hover {
   align-items: center;
   justify-content: space-between;
   padding: 14px 24px;
-  border-top: 1px solid #e9edf3;
+  border-top: 1px solid var(--border-soft);
 }
 
 .pagination p {
   margin-bottom: 0;
-  color: #667085;
+  color: var(--text-muted);
   font-size: 0.82rem;
 }
 
@@ -354,24 +386,24 @@ td a:hover {
 
 .pagination-actions span {
   min-width: 42px;
-  color: #667085;
+  color: var(--text-muted);
   font-size: 0.78rem;
   text-align: center;
 }
 
 .pagination button {
   padding: 7px 12px;
-  border: 1px solid #d8dee9;
+  border: 1px solid var(--control-border);
   border-radius: 7px;
-  color: #344054;
-  background: #fff;
+  color: var(--text-strong);
+  background: var(--surface);
   font-size: 0.8rem;
   font-weight: 600;
 }
 
 .pagination button:hover:not(:disabled) {
-  border-color: #a8afbc;
-  background: #f8f9fc;
+  border-color: var(--hover-border);
+  background: var(--surface-muted);
 }
 
 .pagination button:disabled {

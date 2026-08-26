@@ -2,8 +2,10 @@ import { useEffect, useMemo, useState } from 'react'
 import { DashboardControls } from './components/DashboardControls'
 import { Pagination } from './components/Pagination'
 import { StatCard } from './components/StatCard'
+import { ThemeToggle } from './components/ThemeToggle'
 import { UserTable } from './components/UserTable'
 import { useDebouncedValue } from './hooks/useDebouncedValue'
+import { useTheme } from './hooks/useTheme'
 import { useUsers } from './hooks/useUsers'
 import type { SortKey } from './types/user'
 import { filterUsers, getCities, getCompanies, sortUsers } from './utils/dashboard'
@@ -14,6 +16,7 @@ const PAGE_SIZE = 5
 
 function App() {
   const { users, loading, error } = useUsers()
+  const { theme, toggleTheme } = useTheme()
   const [dashboardState, setDashboardState] = useState(readDashboardParams)
   const { search, company, city, page, sort } = dashboardState
   const debouncedSearch = useDebouncedValue(search, 300)
@@ -81,8 +84,11 @@ function App() {
           <p className="eyebrow">Customer records</p>
           <h1>Support Dashboard</h1>
         </div>
-        <div className="avatar" aria-label="Signed in as Bartu Hacilar">
-          BH
+        <div className="header-actions">
+          <ThemeToggle theme={theme} onToggle={toggleTheme} />
+          <div className="avatar" aria-label="Signed in as Bartu Hacilar">
+            BH
+          </div>
         </div>
       </header>
 

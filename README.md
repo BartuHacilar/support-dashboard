@@ -1,6 +1,17 @@
 # Support Dashboard
 
-A responsive customer records dashboard built with React and TypeScript. It fetches users from JSONPlaceholder and provides search, company and city filters, column sorting, summary cards, and pagination.
+A responsive customer records dashboard built with React and TypeScript. It fetches users from JSONPlaceholder and provides search, filters, sorting, summary cards, and pagination.
+
+## Features
+
+- Search by name or email with a short debounce
+- Company and city filters
+- Ascending and descending column sorting
+- Filter-aware summary cards and pagination
+- URL-synced dashboard state
+- Responsive light and dark themes
+- Loading, empty, and error states
+- Keyboard and screen reader support
 
 ## Setup
 
@@ -26,12 +37,23 @@ To create a production build:
 npm run build
 ```
 
+## Checks
+
+```bash
+npm test
+npm run lint
+npm run build
+```
+
 ## Approach
 
-The app keeps its data and dashboard state locally with React hooks. Search and filters are applied before sorting and pagination, so the summary cards always reflect the current result set. On smaller screens the controls stack and the table can scroll horizontally.
+The app keeps its data and dashboard state locally with React hooks. Search and filters are applied before sorting and pagination, so the summary cards always reflect the current result set. Search, filters, sorting, and page state are also stored in query parameters so a filtered view can be refreshed or shared.
+
+The layout follows the supplied wireframe while using custom colors and spacing. Controls stack on smaller screens, and the table becomes horizontally scrollable below the mobile breakpoint.
 
 ## Notes
 
 - The original 10 records from JSONPlaceholder are used with a page size of 5.
-- Search is intentionally immediate because the dataset is small.
-- With more time, I would add tests for the filtering and sorting logic.
+- Filtering, sorting, and pagination are client-side because the dataset is small.
+- The app depends on JSONPlaceholder being available when it first loads.
+- With a production-sized dataset, I would move filtering and pagination to the server.

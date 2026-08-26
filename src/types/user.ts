@@ -9,3 +9,11 @@ export interface User {
     name: string
   }
 }
+
+export type SortKey = 'name' | 'email' | 'company' | 'city'
+export type SortDirection = 'asc' | 'desc'
+
+export interface SortConfig {
+  key: SortKey
+  direction: SortDirection
+}

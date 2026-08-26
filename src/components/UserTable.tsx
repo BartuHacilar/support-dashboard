@@ -16,7 +16,7 @@ const columns: { label: string; key: SortKey }[] = [
 export function UserTable({ users, sort, onSort }: UserTableProps) {
   if (users.length === 0) {
     return (
-      <div className="empty-state">
+      <div className="empty-state" role="status">
         <strong>No customers found</strong>
         <p>Try changing your search or filters.</p>
       </div>
@@ -24,8 +24,14 @@ export function UserTable({ users, sort, onSort }: UserTableProps) {
   }
 
   return (
-    <div className="table-wrapper">
+    <div
+      className="table-wrapper"
+      role="region"
+      aria-label="Customer table, scroll horizontally on small screens"
+      tabIndex={0}
+    >
       <table>
+        <caption className="sr-only">Customer names, emails, companies, and cities</caption>
         <thead>
           <tr>
             {columns.map((column) => (

@@ -78,63 +78,80 @@ function App() {
   }
 
   return (
-    <div className="app-shell">
-      <header className="topbar">
-        <div>
-          <p className="eyebrow">Customer records</p>
-          <h1>Support Dashboard</h1>
-        </div>
-        <div className="header-actions">
-          <ThemeToggle theme={theme} onToggle={toggleTheme} />
-          <div className="avatar" aria-label="Signed in as Bartu Hacilar">
-            BH
+    <>
+      <a className="skip-link" href="#main-content">Skip to main content</a>
+      <div className="app-shell">
+        <header className="topbar">
+          <div>
+            <p className="eyebrow">Customer records</p>
+            <h1>Support Dashboard</h1>
           </div>
-        </div>
-      </header>
-
-      <main>
-        <section className="stats-grid" aria-label="Customer summary">
-          <StatCard label="Total records" value={filteredUsers.length} tone="indigo" icon="users" />
-          <StatCard label="Companies" value={distinctCompanies} tone="teal" icon="building" />
-          <StatCard label="Cities" value={distinctCities} tone="orange" icon="pin" />
-        </section>
-
-        <DashboardControls
-          search={search}
-          company={activeCompany}
-          city={activeCity}
-          companies={companies}
-          cities={cities}
-          searching={searching}
-          onSearchChange={updateSearch}
-          onCompanyChange={updateCompany}
-          onCityChange={updateCity}
-        />
-
-        <section className="table-panel" aria-labelledby="customer-heading">
-          <div className="panel-heading">
-            <div>
-              <h2 id="customer-heading">Customers</h2>
-              <p>Review customer contact and company details.</p>
+          <div className="header-actions">
+            <ThemeToggle theme={theme} onToggle={toggleTheme} />
+            <div className="avatar" aria-label="Signed in as Bartu Hacilar">
+              BH
             </div>
           </div>
+        </header>
 
-          {loading && <div className="status-message">Loading customers...</div>}
-          {error && <div className="status-message error-message">{error}</div>}
-          {!loading && !error && (
-            <>
-              <UserTable users={visibleUsers} sort={sort} onSort={updateSort} />
-              <Pagination
-                page={activePage}
-                pageSize={PAGE_SIZE}
-                total={filteredUsers.length}
-                onPageChange={updatePage}
-              />
-            </>
-          )}
-        </section>
-      </main>
-    </div>
+        <main id="main-content" tabIndex={-1}>
+          <section className="stats-grid" aria-label="Customer summary">
+            <StatCard label="Total records" value={filteredUsers.length} tone="indigo" icon="users" />
+            <StatCard label="Companies" value={distinctCompanies} tone="teal" icon="building" />
+            <StatCard label="Cities" value={distinctCities} tone="orange" icon="pin" />
+          </section>
+
+          <DashboardControls
+            search={search}
+            company={activeCompany}
+            city={activeCity}
+            companies={companies}
+            cities={cities}
+            searching={searching}
+            onSearchChange={updateSearch}
+            onCompanyChange={updateCompany}
+            onCityChange={updateCity}
+          />
+
+          <section
+            className="table-panel"
+            aria-labelledby="customer-heading"
+            aria-busy={loading || searching}
+          >
+            <div className="panel-heading">
+              <div>
+                <h2 id="customer-heading">Customers</h2>
+                <p>Review customer contact and company details.</p>
+              </div>
+            </div>
+
+            {loading && (
+              <div className="status-message" role="status" aria-live="polite">
+                <span className="loading-indicator" aria-hidden="true" />
+                Loading customers...
+              </div>
+            )}
+            {error && <div className="status-message error-message" role="alert">{error}</div>}
+            {!loading && !error && (
+              <>
+                <p className="sr-only" role="status" aria-live="polite">
+                  {filteredUsers.length} customers found
+                </p>
+                <UserTable users={visibleUsers} sort={sort} onSort={updateSort} />
+                {filteredUsers.length > 0 && (
+                  <Pagination
+                    page={activePage}
+                    pageSize={PAGE_SIZE}
+                    total={filteredUsers.length}
+                    onPageChange={updatePage}
+                  />
+                )}
+              </>
+            )}
+          </section>
+        </main>
+      </div>
+    </>
   )
 }
 

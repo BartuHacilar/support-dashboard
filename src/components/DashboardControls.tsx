@@ -22,7 +22,7 @@ export function DashboardControls({
   onCityChange,
 }: DashboardControlsProps) {
   return (
-    <div className="controls">
+    <section className="controls" aria-label="Customer filters">
       <label className={searching ? 'search-box searching' : 'search-box'}>
         <span className="sr-only">Search by name or email</span>
         <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -59,6 +59,6 @@ export function DashboardControls({
           </select>
         </label>
       </div>
-    </div>
+    </section>
   )
 }

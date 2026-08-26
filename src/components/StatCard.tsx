@@ -19,7 +19,7 @@ export function StatCard({ label, value, tone, icon }: StatCardProps) {
       </div>
       <div>
         <p>{label}</p>
-        <strong>{value}</strong>
+        <strong aria-live="polite">{value}</strong>
       </div>
     </article>
   )

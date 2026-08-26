@@ -11,17 +11,27 @@ export function Pagination({ page, pageSize, total, onPageChange }: PaginationPr
   const lastItem = Math.min(page * pageSize, total)
 
   return (
-    <div className="pagination">
+    <nav className="pagination" aria-label="Table pagination">
       <p>Showing <strong>{firstItem}-{lastItem}</strong> of <strong>{total}</strong></p>
       <div className="pagination-actions">
-        <button type="button" onClick={() => onPageChange(page - 1)} disabled={page === 1}>
+        <button
+          type="button"
+          onClick={() => onPageChange(page - 1)}
+          disabled={page === 1}
+          aria-label="Go to previous page"
+        >
           Previous
         </button>
-        <span>{page} / {pageCount}</span>
-        <button type="button" onClick={() => onPageChange(page + 1)} disabled={page === pageCount}>
+        <span aria-live="polite" aria-atomic="true">{page} / {pageCount}</span>
+        <button
+          type="button"
+          onClick={() => onPageChange(page + 1)}
+          disabled={page === pageCount}
+          aria-label="Go to next page"
+        >
           Next
         </button>
       </div>
-    </div>
+    </nav>
   )
 }

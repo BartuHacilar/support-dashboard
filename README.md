@@ -1,32 +1,37 @@
-# React + TypeScript + Vite
+# Support Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A responsive customer records dashboard built with React and TypeScript. It fetches users from JSONPlaceholder and provides search, company and city filters, column sorting, summary cards, and pagination.
 
-Currently, two official plugins are available:
+## Setup
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+This project was developed with Node.js `v22.20.0`.
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+git clone https://github.com/BartuHacilar/support-dashboard.git
+cd support-dashboard
+npm install
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Run locally
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+To create a production build:
+
+```bash
+npm run build
+```
+
+## Approach
+
+The app keeps its data and dashboard state locally with React hooks. Search and filters are applied before sorting and pagination, so the summary cards always reflect the current result set. On smaller screens the controls stack and the table can scroll horizontally.
+
+## Notes
+
+- The original 10 records from JSONPlaceholder are used with a page size of 5.
+- Search is intentionally immediate because the dataset is small.
+- With more time, I would add tests for the filtering and sorting logic.

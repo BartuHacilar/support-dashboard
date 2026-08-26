@@ -3,6 +3,7 @@ import { DashboardControls } from './components/DashboardControls'
 import { Pagination } from './components/Pagination'
 import { StatCard } from './components/StatCard'
 import { UserTable } from './components/UserTable'
+import { useDebouncedValue } from './hooks/useDebouncedValue'
 import { useUsers } from './hooks/useUsers'
 import type { SortKey } from './types/user'
 import { filterUsers, getCities, getCompanies, sortUsers } from './utils/dashboard'
@@ -15,14 +16,16 @@ function App() {
   const { users, loading, error } = useUsers()
   const [dashboardState, setDashboardState] = useState(readDashboardParams)
   const { search, company, city, page, sort } = dashboardState
+  const debouncedSearch = useDebouncedValue(search, 300)
+  const searching = search !== debouncedSearch
 
   const companies = useMemo(() => getCompanies(users), [users])
   const cities = useMemo(() => getCities(users), [users])
   const activeCompany = !loading && company && !companies.includes(company) ? '' : company
   const activeCity = !loading && city && !cities.includes(city) ? '' : city
   const filteredUsers = useMemo(
-    () => filterUsers(users, { search, company: activeCompany, city: activeCity }),
-    [users, search, activeCompany, activeCity],
+    () => filterUsers(users, { search: debouncedSearch, company: activeCompany, city: activeCity }),
+    [users, debouncedSearch, activeCompany, activeCity],
   )
   const sortedUsers = useMemo(() => sortUsers(filteredUsers, sort), [filteredUsers, sort])
 
@@ -34,7 +37,7 @@ function App() {
 
   useEffect(() => {
     const params = createDashboardParams({
-      search,
+      search: debouncedSearch,
       company: activeCompany,
       city: activeCity,
       page: activePage,
@@ -42,7 +45,7 @@ function App() {
     })
     const query = params.size > 0 ? `?${params.toString()}` : ''
     window.history.replaceState(null, '', `${window.location.pathname}${query}${window.location.hash}`)
-  }, [search, activeCompany, activeCity, activePage, sort])
+  }, [debouncedSearch, activeCompany, activeCity, activePage, sort])
 
   function updateSearch(value: string) {
     setDashboardState((current) => ({ ...current, search: value, page: 1 }))
@@ -96,6 +99,7 @@ function App() {
           city={activeCity}
           companies={companies}
           cities={cities}
+          searching={searching}
           onSearchChange={updateSearch}
           onCompanyChange={updateCompany}
           onCityChange={updateCity}

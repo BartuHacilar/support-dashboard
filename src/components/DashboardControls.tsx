@@ -4,6 +4,7 @@ interface DashboardControlsProps {
   city: string
   companies: string[]
   cities: string[]
+  searching: boolean
   onSearchChange: (value: string) => void
   onCompanyChange: (value: string) => void
   onCityChange: (value: string) => void
@@ -15,13 +16,14 @@ export function DashboardControls({
   city,
   companies,
   cities,
+  searching,
   onSearchChange,
   onCompanyChange,
   onCityChange,
 }: DashboardControlsProps) {
   return (
     <div className="controls">
-      <label className="search-box">
+      <label className={searching ? 'search-box searching' : 'search-box'}>
         <span className="sr-only">Search by name or email</span>
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <circle cx="11" cy="11" r="7" />
@@ -32,7 +34,12 @@ export function DashboardControls({
           value={search}
           placeholder="Search by name or email..."
           onChange={(event) => onSearchChange(event.target.value)}
+          aria-busy={searching}
         />
+        {searching && <span className="search-spinner" aria-hidden="true" />}
+        <span className="sr-only" role="status" aria-live="polite">
+          {searching ? 'Updating results' : ''}
+        </span>
       </label>
 
       <div className="select-group">

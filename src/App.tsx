@@ -4,16 +4,11 @@ import { Pagination } from './components/Pagination'
 import { StatCard } from './components/StatCard'
 import { UserTable } from './components/UserTable'
 import { useUsers } from './hooks/useUsers'
-import type { SortConfig, SortKey, User } from './types/user'
+import type { SortConfig, SortKey } from './types/user'
+import { filterUsers, getCities, getCompanies, sortUsers } from './utils/dashboard'
 import './App.css'
 
 const PAGE_SIZE = 5
-
-function getSortValue(user: User, key: SortKey) {
-  if (key === 'company') return user.company.name
-  if (key === 'city') return user.address.city
-  return user[key]
-}
 
 function App() {
   const { users, loading, error } = useUsers()
@@ -23,35 +18,13 @@ function App() {
   const [page, setPage] = useState(1)
   const [sort, setSort] = useState<SortConfig>({ key: 'name', direction: 'asc' })
 
-  const companies = useMemo(
-    () => [...new Set(users.map((user) => user.company.name))].sort(),
-    [users],
+  const companies = useMemo(() => getCompanies(users), [users])
+  const cities = useMemo(() => getCities(users), [users])
+  const filteredUsers = useMemo(
+    () => filterUsers(users, { search, company, city }),
+    [users, search, company, city],
   )
-  const cities = useMemo(
-    () => [...new Set(users.map((user) => user.address.city))].sort(),
-    [users],
-  )
-
-  const filteredUsers = useMemo(() => {
-    const query = search.trim().toLowerCase()
-
-    return users.filter((user) => {
-      const matchesSearch = !query
-        || user.name.toLowerCase().includes(query)
-        || user.email.toLowerCase().includes(query)
-      const matchesCompany = !company || user.company.name === company
-      const matchesCity = !city || user.address.city === city
-
-      return matchesSearch && matchesCompany && matchesCity
-    })
-  }, [users, search, company, city])
-
-  const sortedUsers = useMemo(() => {
-    return [...filteredUsers].sort((first, second) => {
-      const result = getSortValue(first, sort.key).localeCompare(getSortValue(second, sort.key))
-      return sort.direction === 'asc' ? result : -result
-    })
-  }, [filteredUsers, sort])
+  const sortedUsers = useMemo(() => sortUsers(filteredUsers, sort), [filteredUsers, sort])
 
   const visibleUsers = sortedUsers.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
   const distinctCompanies = new Set(filteredUsers.map((user) => user.company.name)).size

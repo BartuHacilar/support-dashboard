@@ -486,6 +486,12 @@ td a:hover {
   .select-group select {
     width: 100%;
   }
+
+  th,
+  td {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }
 
 @media (max-width: 639px) {

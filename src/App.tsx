@@ -24,6 +24,7 @@ function App() {
 
   const companies = useMemo(() => getCompanies(users), [users])
   const cities = useMemo(() => getCities(users), [users])
+  // Ignore filters that are no longer available
   const activeCompany = !loading && company && !companies.includes(company) ? '' : company
   const activeCity = !loading && city && !cities.includes(city) ? '' : city
   const filteredUsers = useMemo(
@@ -34,10 +35,12 @@ function App() {
 
   const distinctCompanies = new Set(filteredUsers.map((user) => user.company.name)).size
   const distinctCities = new Set(filteredUsers.map((user) => user.address.city)).size
+  // Keep the current page within the filtered results
   const pageCount = Math.max(1, Math.ceil(filteredUsers.length / PAGE_SIZE))
   const activePage = loading ? page : Math.min(page, pageCount)
   const visibleUsers = sortedUsers.slice((activePage - 1) * PAGE_SIZE, activePage * PAGE_SIZE)
 
+  // Keep the dashboard state in the URL
   useEffect(() => {
     const params = createDashboardParams({
       search: debouncedSearch,

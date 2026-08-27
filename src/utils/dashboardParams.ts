@@ -39,6 +39,7 @@ export function createDashboardParams(state: DashboardState) {
   const params = new URLSearchParams()
   const query = state.search.trim()
 
+  // Leave default values out of the URL
   if (query) params.set('q', query)
   if (state.company) params.set('company', state.company)
   if (state.city) params.set('city', state.city)

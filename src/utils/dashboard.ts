@@ -27,6 +27,7 @@ export function filterUsers(users: User[], filters: UserFilters) {
 }
 
 export function sortUsers(users: User[], sort: SortConfig) {
+  // Sort a copy to keep the original list unchanged
   return [...users].sort((first, second) => {
     const result = getSortValue(first, sort.key).localeCompare(getSortValue(second, sort.key))
     return sort.direction === 'asc' ? result : -result

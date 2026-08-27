@@ -33,6 +33,7 @@ export function useUsers() {
     }
 
     fetchUsers()
+    // Cancel the request when the component unmounts
     return () => controller.abort()
   }, [])
 

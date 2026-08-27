@@ -51,9 +51,15 @@ The app keeps its data and dashboard state locally with React hooks. Search and 
 
 The layout follows the supplied wireframe while using custom colors and spacing. Controls stack on smaller screens, and the table becomes horizontally scrollable below the mobile breakpoint.
 
-## Notes
+## Assumptions and limitations
 
-- The original 10 records from JSONPlaceholder are used with a page size of 5.
+- The original 10 records are enough to demonstrate pagination with a page size of 5, so no mock data was added.
 - Filtering, sorting, and pagination are client-side because the dataset is small.
 - The app depends on JSONPlaceholder being available when it first loads.
-- With a production-sized dataset, I would move filtering and pagination to the server.
+
+## Future improvements
+
+- Move search, filtering, sorting, and pagination to the server for a larger dataset.
+- Support multi-select filters for comparing several companies or cities at once.
+- Add numbered pagination and a page-size selector to make larger result sets easier to navigate.
+- Add a retry action to the error state for temporary API failures.
